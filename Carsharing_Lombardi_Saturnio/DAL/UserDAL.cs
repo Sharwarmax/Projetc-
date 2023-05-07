@@ -52,7 +52,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.[User] WHERE Username = @Username AND Password = @Password", connection);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Saturnio_Lombardi.[dbo].[User] WHERE Username = @Username AND Password = @Password", connection);
                 cmd.Parameters.AddWithValue("Username", user.Username);
                 cmd.Parameters.AddWithValue("Password", user.Password);
                 connection.Open();
@@ -65,10 +65,11 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                         user.First_name = reader.GetString("First_name");
                         user.Last_name = reader.GetString("Last_name");
                         user.Password = "";
+                        return user;
                     }
                 }
             }
-            return user;
+            return null;
         }
     }
 }

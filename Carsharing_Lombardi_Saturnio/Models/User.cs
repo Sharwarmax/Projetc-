@@ -31,7 +31,8 @@ namespace Carsharing_Lombardi_Saturnio.Models
 
         public User(LoginViewModel vm)
         {
-
+            Username= vm.Username;
+            Password= vm.Password;
         }
 
         public void Register(IUserDAL _userDAL) => _userDAL.Register(this);
