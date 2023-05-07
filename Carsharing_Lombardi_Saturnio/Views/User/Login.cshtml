@@ -1,0 +1,29 @@
+﻿@using Carsharing_Lombardi_Saturnio.ViewModels;
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Login Page";
+}
+
+@if (TempData["username"] != null)
+{
+    <span class="alert alert-success">Congratulations, @TempData["username"], your account has been created!</span>
+}
+
+@if (TempData["Connected"] != null)
+{
+    <span class="alert alert-danger">@TempData["Error_Connected"]</span>
+    <br>
+}
+
+<a class="navbar-brand" asp-controller="User" asp-action="Register">Register</a>
+
+<h1>Login form</h1>
+<form asp-controller="User" asp-action="Login" method="post">
+    <label asp-for="Username"></label><br>
+    <input asp-for="Username" /><br>
+    <span asp-validation-for="Username"></span><br>
+    <label asp-for="Password"></label><br>
+    <input type="password" asp-for="Password" /><br>
+    <span asp-validation-for="Password"></span><br>
+    <input type="submit" value="Submit" />
+</form>
