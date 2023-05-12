@@ -41,7 +41,7 @@ namespace Carsharing_Lombardi_Saturnio.Models
 
         public void Login(IUserDAL _userDAL) => _userDAL.Login(this);
 
-        public void ViewMyOffers() { }
+        public List<Offer> ViewMyOffers(IOfferDAL _offerDAL) => _offerDAL.ViewMyOffers(this);
 
         public void AddOffer(Offer offer) { }
 

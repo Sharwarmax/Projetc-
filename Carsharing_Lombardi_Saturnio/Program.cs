@@ -13,7 +13,7 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 builder.Services.AddTransient<IUserDAL>(md => new UserDAL(connectionString));
-
+builder.Services.AddTransient<IOfferDAL>(md => new OfferDAL(connectionString));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
