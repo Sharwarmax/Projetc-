@@ -5,5 +5,7 @@ namespace Carsharing_Lombardi_Saturnio.IDAL
     public interface IOfferDAL
     {
         public List<Offer> ViewMyOffers(User driver);
+        public Offer GetOffer(int id);
+
     }
 }

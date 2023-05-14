@@ -1,5 +1,6 @@
 ﻿using Carsharing_Lombardi_Saturnio.IDAL;
 using Carsharing_Lombardi_Saturnio.Models;
+using Microsoft.AspNetCore.Identity;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -18,7 +19,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand("SELECT [Date],o.Id_Offer, NbPassengersMax, StartPoint, Destination, Price, Completed FROM Saturnio_Lombardi.[dbo].[Offer] o " +
-                    "INNER JOIN Saturnio_Lombardi.[dbo].[Users_Offers] ou ON o.Id_Offer = ou.Id_Offer WHERE o.Id_User = 1 AND ou.Type = 'Driver'", connection);
+                    "INNER JOIN Saturnio_Lombardi.[dbo].[Users_Offers] ou ON o.Id_Offer = ou.Id_Offer WHERE o.Id_User = @Id_User AND ou.Type = 'Driver'", connection);
                 cmd.Parameters.AddWithValue("Id_User", driver.Id);
                 connection.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader())
@@ -38,6 +39,45 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                 }
             }
             return offers_driver;
+        }
+
+        public Offer GetOffer(int id)
+        {
+            Offer offer = new Offer();
+            offer.Passengers = new List<User>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT o.*, uf.Id_User, uf.First_name, uf.Last_name, uf.Phone_number, uf.Username FROM Saturnio_Lombardi.[dbo].[Offer] o " +
+                    "INNER JOIN Saturnio_Lombardi.[dbo].[Users_Offers] ou " +
+                    "ON o.Id_Offer = ou.Id_Offer " +
+                    "INNER JOIN Saturnio_Lombardi.[dbo].[User] uf " +
+                    "ON ou.Id_User = uf.Id_User WHERE ou.Id_Offer = @Id_Offer AND ou.Type = 'Passenger'", connection);
+                cmd.Parameters.AddWithValue("Id_Offer", id);
+                connection.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while(reader.Read())
+                    {
+                        offer.Date = reader.GetDateTime("Date");
+                        offer.Id_Offer = reader.GetInt32("Id_Offer");
+                        offer.NbPassengerMax = reader.GetInt32("NbPassengersMax");
+                        offer.StartPoint = reader.GetString("StartPoint");
+                        offer.Destination = reader.GetString("Destination");
+                        offer.Price = Convert.ToSingle(reader.GetDouble("Price"));
+                        offer.Completed = reader.GetBoolean("Completed");
+                        offer.Numkm = Convert.ToSingle(reader.GetDouble("NumKm"));
+
+                        User passenger = new User();
+                        passenger.Id = reader.GetInt32("Id_User");
+                        passenger.First_name = reader.GetString("First_name");
+                        passenger.Last_name = reader.GetString("Last_name");
+                        passenger.Phone_number = reader.GetInt32("Phone_number");
+                        passenger.Username = reader.GetString("Username");
+                        offer.Passengers.Add(passenger);
+                    }
+                }
+            }
+            return offer;
         }
 
     }

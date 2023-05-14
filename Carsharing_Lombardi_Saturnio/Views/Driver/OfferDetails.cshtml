@@ -1,0 +1,51 @@
+﻿@model Offer
+@if (Model == null)
+{
+
+    <span class="alert alert-danger">The selected offer isn't found</span>
+    <a asp-action="Login">Go back to homepage</a>
+}
+else
+{
+    <h1>Offer Details</h1>
+
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Starting point</th>
+            <th>Destination</th>
+            <th>Number of passenger</th>
+            <th>Price</th>
+        </tr>
+        <tr>
+            <td>@Model.Date.ToString("dd/MM/yyyy")</td>
+            <td>@Model.StartPoint</td>
+            <td>@Model.Destination</td>
+            <td>@Model.NbPassengerMax</td>
+            <td>@Model.Price</td>
+            <td>@Model.Completed</td>
+        </tr>
+        <tr>
+            <th>Username</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone Number</th>
+            <th>Id</th>
+        </tr>
+
+        @foreach (var passenger in Model.Passengers)
+        {
+            <tr>
+                <td>@passenger.Username</td>
+                <td>@passenger.First_name</td>
+                <td>@passenger.Last_name</td>
+                <td>@passenger.Phone_number</td>
+                <td><a asp-action="ContactPassenger" asp-route-id_passenger="@passenger.Id">Contact Passenger</a></td>
+            </tr>
+        }
+    </table>
+        
+    
+}
+
+
