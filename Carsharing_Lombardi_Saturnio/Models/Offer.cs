@@ -9,8 +9,8 @@ namespace Carsharing_Lombardi_Saturnio.Models
         private float price;
         private int nbpassengersmax;
         private bool completed;
-        private List<User> passengers;
-        private List<User> driver;
+        private List<User> passengers = new List<User>();
+        private User driver = new User();
 
         public int Id_Offer { get => id_offer; set => id_offer = value; }
         public float Numkm { get => numkm; set => numkm = value; }
@@ -18,7 +18,7 @@ namespace Carsharing_Lombardi_Saturnio.Models
         public int NbPassengerMax { get => nbpassengersmax; set => nbpassengersmax = value; }
         public bool Completed { get => completed; set => completed = value; }
         public List<User> Passengers { get => passengers; set => passengers = value; }
-        public List<User> Driver { get => driver; set => driver = value; }
+        public User Driver { get => driver; set => driver = value; }
 
         public void GetOffers() { }
 

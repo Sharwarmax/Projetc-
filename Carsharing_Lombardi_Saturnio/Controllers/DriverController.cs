@@ -40,6 +40,14 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
                 return RedirectToAction(nameof(User), nameof(UserController.Login));
             }
             Offer offer = Offer.GetOffer(id_offer,_offerDAL);
+            /*if(offer == null)
+                return View(null);
+
+            offer.Driver.Id = driver.Id;
+            offer.Driver.Username = driver.Username;
+            offer.Driver.First_name= driver.First_name;
+            offer.Driver.Last_name= driver.Last_name;
+            offer.Driver.Phone_number= driver.Phone_number;*/
             return View(offer);
         }
     }

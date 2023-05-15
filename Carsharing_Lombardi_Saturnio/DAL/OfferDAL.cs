@@ -44,14 +44,15 @@ namespace Carsharing_Lombardi_Saturnio.DAL
         public Offer GetOffer(int id)
         {
             Offer offer = new Offer();
-            offer.Passengers = new List<User>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT o.*, uf.Id_User, uf.First_name, uf.Last_name, uf.Phone_number, uf.Username FROM Saturnio_Lombardi.[dbo].[Offer] o " +
+                SqlCommand cmd = new SqlCommand("SELECT o.Date, o.Id_Offer, o.NbPassengersMax, o.StartPoint, o.Destination, o.Price, o.Completed, o.NumKm" +
+                    "ou.Id_User, uf.First_name, uf.Last_name, uf.Phone_number, uf.Username, ou.Type " +
+                    "FROM Saturnio_Lombardi.[dbo].[Offer] o " +
                     "INNER JOIN Saturnio_Lombardi.[dbo].[Users_Offers] ou " +
                     "ON o.Id_Offer = ou.Id_Offer " +
                     "INNER JOIN Saturnio_Lombardi.[dbo].[User] uf " +
-                    "ON ou.Id_User = uf.Id_User WHERE ou.Id_Offer = @Id_Offer AND ou.Type = 'Passenger'", connection);
+                    "ON ou.Id_User = uf.Id_User WHERE ou.Id_Offer = @Id_Offer", connection);
                 cmd.Parameters.AddWithValue("Id_Offer", id);
                 connection.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader())
@@ -66,14 +67,26 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                         offer.Price = Convert.ToSingle(reader.GetDouble("Price"));
                         offer.Completed = reader.GetBoolean("Completed");
                         offer.Numkm = Convert.ToSingle(reader.GetDouble("NumKm"));
+                        if(reader.GetString("Type") == "Driver")
+                        {
+                            offer.Driver.Id = reader.GetInt32("Id_User");
+                            offer.Driver.First_name = reader.GetString("First_name");
+                            offer.Driver.Last_name = reader.GetString("Last_name");
+                            offer.Driver.Phone_number = reader.GetInt32("Phone_number");
+                            offer.Driver.Username = reader.GetString("Username");
+                        }
 
-                        User passenger = new User();
-                        passenger.Id = reader.GetInt32("Id_User");
-                        passenger.First_name = reader.GetString("First_name");
-                        passenger.Last_name = reader.GetString("Last_name");
-                        passenger.Phone_number = reader.GetInt32("Phone_number");
-                        passenger.Username = reader.GetString("Username");
-                        offer.Passengers.Add(passenger);
+                        if (reader.GetString("Type") == "Passenger")
+                        {
+                            User passenger = new User();
+                            passenger.Id = reader.GetInt32("Id_User");
+                            passenger.First_name = reader.GetString("First_name");
+                            passenger.Last_name = reader.GetString("Last_name");
+                            passenger.Phone_number = reader.GetInt32("Phone_number");
+                            passenger.Username = reader.GetString("Username");
+                            offer.Passengers.Add(passenger);
+                        }
+                        
                     }
                 }
             }
