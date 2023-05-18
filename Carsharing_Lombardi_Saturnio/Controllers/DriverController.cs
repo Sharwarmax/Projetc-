@@ -141,7 +141,5 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
             TempData["FailureMessage"] = "An error has occured while adding the offer, try again!";
             return RedirectToAction(nameof(UserController.Welcome), nameof(User));
         }
-
-
     }
 }

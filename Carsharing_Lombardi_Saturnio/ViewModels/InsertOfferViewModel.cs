@@ -5,7 +5,6 @@ namespace Carsharing_Lombardi_Saturnio.ViewModels
 {
     public class InsertOfferViewModel : TravelDetails
     {
-        private int id_offer;
         private float numkm;
         private int nbpassengersmax;
         private float price;
