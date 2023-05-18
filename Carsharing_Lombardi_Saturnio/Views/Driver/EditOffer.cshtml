@@ -1,0 +1,37 @@
+﻿@using Carsharing_Lombardi_Saturnio.ViewModels;
+@model EditOfferViewModel
+
+@if(Model == null)
+{
+
+    <span class="alert alert-danger">The selected offer was not found</span>
+    <a asp-action="Welcome" asp-controller="User">Go back to welcome page</a>
+}
+else
+{
+    <h1>Edit Offer @Model.Id_Offer</h1>
+    <form asp-controller="Driver" asp-action="EditOffer" method="post">
+        <input asp-for="Id_Offer" type="hidden" />   
+        <label asp-for="StartPoint"></label><br>
+        <input asp-for="StartPoint" /><br>
+        <span asp-validation-for="StartPoint"></span><br>
+        <label asp-for="Destination"></label><br>
+        <input asp-for="Destination" /><br>
+        <span asp-validation-for="Destination"></span><br>
+        <label asp-for="Date"></label><br>
+        <input asp-for="Date" /><br>
+        <span asp-validation-for="Date"></span><br>
+        <label asp-for="DepartureTime"></label><br>
+        <input asp-for="DepartureTime" /><br>
+        <span asp-validation-for="DepartureTime"></span><br>
+        <label asp-for="Numkm"></label><br>
+        <input asp-for="Numkm" /><br>
+        <span asp-validation-for="Numkm"></span><br>
+        <label asp-for="Price"></label><br>
+        <input asp-for="Price" /><br>
+        <span asp-validation-for="Price"></span><br>
+        <input type="submit" value="Submit" />
+    </form>
+}
+
+

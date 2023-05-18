@@ -17,14 +17,12 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
             _userDAL = userDAL;
         }
 
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         public IActionResult Register()
         {
+            User user = HttpContext.Session.Get<User>("CurrentUser");
+            if (user != null)
+                return RedirectToAction(nameof(Welcome));
+
             return View();
         }
 
@@ -46,6 +44,10 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
 
         public IActionResult Login()
         {
+            User user = HttpContext.Session.Get<User>("CurrentUser");
+            if (user != null)
+                return RedirectToAction(nameof(Welcome));
+
             return View();
         }
 
@@ -54,18 +56,18 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel userVM)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 User user = new User(userVM);
                 if (!user.CheckUsername(_userDAL))
                 {
-                    user.Login(_userDAL);
-                    if(user != null)
+                    if (user.Login(_userDAL) == true)
                     {
                         HttpContext.Session.Set("CurrentUser", user);
                         return RedirectToAction(nameof(Welcome));
                     }
                 }
+                TempData["FailureMessage"] = "The username or password is incorrect, try again!";
             }
             return View();
         }

@@ -48,7 +48,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
             return result;
         }
 
-        public User Login(User user)
+        public bool Login(User user)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -65,11 +65,11 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                         user.First_name = reader.GetString("First_name");
                         user.Last_name = reader.GetString("Last_name");
                         user.Password = "";
-                        return user;
+                        return true;
                     }
                 }
             }
-            return null;
+            return false;
         }
     }
 }
