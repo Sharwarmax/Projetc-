@@ -9,6 +9,8 @@ namespace Carsharing_Lombardi_Saturnio.IDAL
         public bool RemoveOffer(Offer offer);
         public bool UpdateOffer(Offer offer);
         public bool InsertOffer(Offer offer);
+        public bool InsertOfferAndUser(Offer offer);
+
 
     }
 }

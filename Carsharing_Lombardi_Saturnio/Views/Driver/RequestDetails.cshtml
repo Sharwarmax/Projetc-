@@ -1,0 +1,33 @@
+﻿@model Request
+@if (Model == null)
+{
+
+    <span class="alert alert-danger">The selected request isn't found</span>
+    <a asp-action="Welcome" asp-controller="User">Go back to welcome page</a>
+}
+else
+{
+<h1><Center>Requests details @Model.Id_Request</Center></h1>
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Starting point</th>
+            <th>Destination</th>
+            <th>Departure Time</th>
+            <th>Created by</th>
+
+        </tr>
+        <tr>
+            <td>@Model.Date.ToString("dd/MM/yyyy")</td>
+            <td>@Model.StartPoint</td>
+            <td>@Model.Destination</td>
+            <td>@Model.DepartureTime.TimeOfDay</td>
+            <td>@Model.User.Username</td>
+            <td><a asp-action="InsertOfferWithRequest" asp-route-id_request="@Model.Id_Request">Add to offers</a></td>
+    
+    </table>
+        
+    
+}
+
+

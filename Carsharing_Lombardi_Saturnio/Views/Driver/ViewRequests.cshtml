@@ -1,0 +1,34 @@
+﻿@model List<Request>
+@if(Model == null)
+{
+
+    <span class="alert alert-danger">There's no requests at the moment.</span>
+    <a asp-action="Welcome" asp-controller="User">Go back to welcome page</a>
+}
+else
+{
+<h1><Center>List of requests</Center></h1>
+
+<table class="table">
+    <tr>
+        <th>Date</th>
+        <th>Departure time</th>
+        <th>Starting point</th>
+        <th>Destination</th>
+
+   
+    </tr>
+    @foreach (var request in Model)
+    {
+        <tr>
+                <td>@request.Date.ToString("dd/MM/yyyy")</td>
+                <td>@request.DepartureTime.TimeOfDay</td>
+                <td>@request.StartPoint</td>
+                <td>@request.Destination</td>
+                <td><a asp-action="RequestDetails" asp-route-id_request="@request.Id_Request">Details</a></td>
+        </tr>
+    }
+</table>
+}
+
+

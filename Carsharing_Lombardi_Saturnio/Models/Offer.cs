@@ -35,7 +35,6 @@ namespace Carsharing_Lombardi_Saturnio.Models
             StartPoint = editOffer.StartPoint;
             Date = editOffer.Date;
             DepartureTime = editOffer.DepartureTime;
-            Id_Offer = editOffer.Id_Offer;
             Numkm = editOffer.Numkm;
             Price = editOffer.Price;
         }
@@ -51,6 +50,18 @@ namespace Carsharing_Lombardi_Saturnio.Models
             DepartureTime = insertoffer.DepartureTime;
         }
 
+        public Offer(Request request, InsertOfferWithRequestViewModel request_offer)
+        {
+            Destination = request.Destination;
+            StartPoint = request.StartPoint;
+            Date = request.Date;
+            DepartureTime= request.DepartureTime;
+            Passengers.Add(request.User);
+            Price = request_offer.Price;
+            NbPassengerMax= request_offer.NbPassengerMax;
+            Numkm= request_offer.Numkm;
+        }
+
         public void TotalPrice() => totalprice = price * numkm;
 
         public void GetOffers() { }
@@ -58,15 +69,17 @@ namespace Carsharing_Lombardi_Saturnio.Models
         public static Offer GetOffer(int id, IOfferDAL _offerDAL) => _offerDAL.GetOffer(id);
 
         public bool RemoveOffer(IOfferDAL _offerDAL) => _offerDAL.RemoveOffer(this);
+        public bool UpdateOffer(IOfferDAL _offerDAL) => _offerDAL.UpdateOffer(this);
 
         public void ViewAcceptedOffers() { }
 
         public bool InsertOffer(IOfferDAL _offerDAL) => _offerDAL.InsertOffer(this);
+        public bool InsertOfferAndUser(IOfferDAL _offerDAL) => _offerDAL.InsertOfferAndUser(this);
+
 
         public void AddPassenger(User passenger) { }
 
         public void AddDriver(User driver) { }
 
-        public bool UpdateOffer(IOfferDAL _offerDAL) => _offerDAL.UpdateOffer(this);
     }
 }

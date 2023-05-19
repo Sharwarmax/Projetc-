@@ -1,11 +1,13 @@
 ﻿using Carsharing_Lombardi_Saturnio.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace Carsharing_Lombardi_Saturnio.ViewModels
 {
-    public class EditOfferViewModel : TravelDetails
+    public class InsertOfferWithRequestViewModel
     {
         private float numkm;
+        private int nbpassengersmax;
         private float price;
 
         [Display(Name = "Number of kms")]
@@ -14,16 +16,8 @@ namespace Carsharing_Lombardi_Saturnio.ViewModels
         [Display(Name = "Price (€)")]
         [Required(ErrorMessage = "The price field is required!"), Range(0.5, 3, ErrorMessage = "The price must be between 0.5 and 3 €!")]
         public float Price { get => price; set => price = value; }
-
-        public EditOfferViewModel() { }
-        public EditOfferViewModel(Offer offer)
-        {
-            Numkm = offer.Numkm;
-            Price = offer.Price;
-            Destination= offer.Destination;
-            StartPoint= offer.StartPoint;
-            Date = offer.Date;
-            DepartureTime= offer.DepartureTime;
-        }
+        [Display(Name = "Maximum number of passengers")]
+        [Required(ErrorMessage = "The maximum number of passengers must have a value!"), Range(1, 4, ErrorMessage = "You must insert between 1 and 4 passengers")]
+        public int NbPassengerMax { get => nbpassengersmax; set => nbpassengersmax = value; }
     }
 }

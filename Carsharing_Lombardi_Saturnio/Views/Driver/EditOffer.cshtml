@@ -9,9 +9,8 @@
 }
 else
 {
-    <h1>Edit Offer @Model.Id_Offer</h1>
+    <h1>Editing the offer</h1>
     <form asp-controller="Driver" asp-action="EditOffer" method="post">
-        <input asp-for="Id_Offer" type="hidden" />   
         <label asp-for="StartPoint"></label><br>
         <input asp-for="StartPoint" /><br>
         <span asp-validation-for="StartPoint"></span><br>

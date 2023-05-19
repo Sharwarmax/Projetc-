@@ -1,0 +1,17 @@
+﻿@using Carsharing_Lombardi_Saturnio.ViewModels;
+@model InsertOfferWithRequestViewModel
+
+    <h1> Add Offer with the request</h1>
+    <form asp-controller="Driver" asp-action="InsertOfferWithRequest" method="post">
+    <label asp-for="Numkm"></label><br>
+    <input asp-for="Numkm" /><br>
+    <span asp-validation-for="Numkm"></span><br>
+    <label asp-for="NbPassengerMax"></label><br>
+    <input asp-for="NbPassengerMax" /><br>
+    <span asp-validation-for="NbPassengerMax"></span><br>
+    <label asp-for="Price"></label><br>
+    <input asp-for="Price" /><br>
+    <span asp-validation-for="Price"></span><br>
+        <input type="submit" value="Submit" />
+    </form>
+

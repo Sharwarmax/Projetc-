@@ -160,5 +160,37 @@ namespace Carsharing_Lombardi_Saturnio.DAL
             return result;
         }
 
+        public bool InsertOfferAndUser(Offer offer)
+        {
+            bool result = false;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("INSERT INTO Saturnio_Lombardi.dbo.[Offer] (NumKm, Price, NbPassengersMax, " +
+                    "Completed, Id_User , Destination, Date, Departure_Time, StartPoint) VALUES(@NumKm, @Price, @NbPassengersMax, " +
+                    "@Completed, @Id_Driver, @Destination, @Date, @Departure_Time, @StartPoint);" +
+                    "INSERT INTO Saturnio_Lombardi.dbo.[Users_Offers] (Type, Id_Offer, Id_User) " +
+                    "VALUES(@TypeD, ident_current('Saturnio_Lombardi.dbo.[Offer]'), @Id_Driver) " +
+                    "INSERT INTO Saturnio_Lombardi.dbo.[Users_Offers] (Type, Id_Offer, Id_User) " +
+                    "VALUES(@TypeP, ident_current('Saturnio_Lombardi.dbo.[Offer]'), @Id_Passenger)", connection);
+                cmd.Parameters.AddWithValue("NumKm", offer.Numkm);
+                cmd.Parameters.AddWithValue("Price", offer.Price);
+                cmd.Parameters.AddWithValue("NbPassengersMax", offer.NbPassengerMax);
+                cmd.Parameters.AddWithValue("Completed", 0);
+                cmd.Parameters.AddWithValue("Id_Driver", offer.Driver.Id);
+                cmd.Parameters.AddWithValue("Id_Passenger", offer.Passengers[0].Id);
+                cmd.Parameters.AddWithValue("Destination", offer.Destination);
+                cmd.Parameters.AddWithValue("StartPoint", offer.StartPoint);
+                cmd.Parameters.AddWithValue("Date", offer.Date);
+                cmd.Parameters.AddWithValue("Departure_Time", offer.DepartureTime.TimeOfDay);
+                cmd.Parameters.AddWithValue("TypeD", "Driver");
+                cmd.Parameters.AddWithValue("TypeP", "Passenger");
+                connection.Open();
+                int res = cmd.ExecuteNonQuery();
+                result = res > 0;
+
+            }
+            return result;
+        }
+
     }
 }
