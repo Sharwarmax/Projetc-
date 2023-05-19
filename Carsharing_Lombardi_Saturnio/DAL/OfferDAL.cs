@@ -193,14 +193,15 @@ namespace Carsharing_Lombardi_Saturnio.DAL
             List<Offer> offers = new List<Offer>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT o.Date, o.Id_Offer, o.NbPassengersMax," +
-                    " o.StartPoint, o.Destination, o.Price, o.Completed, o.NumKm" +
+                SqlCommand cmd = new SqlCommand("SELECT o.Date, o.Id_Offer, o.NbPassengersMax, " +
+                    "o.StartPoint, o.Destination, o.Price, o.Completed, o.NumKm, o.Departure_Time, " +
                     "ou.Id_User, uf.First_name, uf.Last_name, uf.Phone_number, uf.Username, ou.Type " +
                     "FROM Saturnio_Lombardi.[dbo].[Offer] o " +
-                    "INNER JOIN Saturnio_Lombardi.[dbo].[Users Offers] ou " +
-                    "ON o.Id_Offer = ou.Id_Offer" +
-                    "INNER JOIN Saturnio_Lombardi.[dbo].[User] uf " + 
-                    " ON ou.Id_User = uf.Id_User ", connection);
+                    "INNER JOIN Saturnio_Lombardi.[dbo].[Users_Offers] ou " +
+                    "ON o.Id_Offer = ou.Id_Offer " +
+                    "INNER JOIN Saturnio_Lombardi.[dbo].[User] uf " +
+                    "ON ou.Id_User = uf.Id_User ", connection);
+
                 connection.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
