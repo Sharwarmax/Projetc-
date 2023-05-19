@@ -15,7 +15,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
         }
         public List<Offer> ViewMyOffers(User driver)
         {
-            List<Offer> offers_driver = new List<Offer>();
+            List<Offer> offers_driver = null;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand("SELECT [Date],o.Id_Offer, NbPassengersMax, StartPoint, Destination, Price, Completed FROM Saturnio_Lombardi.[dbo].[Offer] o " +
@@ -26,6 +26,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                 {
                     while(reader.Read())
                     {
+                        offers_driver= new List<Offer>();
                         Offer offer = new Offer();
                         offer.Date = reader.GetDateTime("Date");
                         offer.Id_Offer = reader.GetInt32("Id_Offer");
@@ -87,9 +88,10 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                             passenger.Username = reader.GetString("Username");
                             offer.Passengers.Add(passenger);
                         }
-                        
                     }
                 }
+                if (offer.Id_Offer == 0)
+                    return null;
             }
             return offer;
         }

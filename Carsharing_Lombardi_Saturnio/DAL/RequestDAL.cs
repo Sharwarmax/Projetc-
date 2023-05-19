@@ -15,7 +15,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
 
         public List<Request> GetRequests()
         {
-            List<Request> requests = new List<Request>();
+            List<Request> requests = null;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand("SELECT * FROM Saturnio_Lombardi.dbo.[Request]", connection);
@@ -24,6 +24,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                 {
                     while (reader.Read())
                     {
+                        requests = new List<Request>();
                         Request request = new Request();
                         request.Date = reader.GetDateTime("Date");
                         request.Id_Request = reader.GetInt32("Id_Request");

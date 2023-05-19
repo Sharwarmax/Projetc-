@@ -39,6 +39,11 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
                 return RedirectToAction(nameof(UserController.Login), nameof(User));
             }
             Offer offer = Offer.GetOffer(id_offer,_offerDAL);
+            if(offer == null)
+            {
+                TempData["FailureMessage"] = "An error has occured !";
+                return RedirectToAction(nameof(UserController.Welcome), nameof(User));
+            }
             offer.TotalPrice();
             return View(offer);
         }
@@ -154,6 +159,7 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
                 TempData["NotConnected"] = "Please log into your account.";
                 return RedirectToAction(nameof(UserController.Login), nameof(User));
             }
+
             List<Request> requests = Models.Request.GetRequests(_requestDAL);
             return View(requests);
         }
@@ -167,6 +173,11 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
                 return RedirectToAction(nameof(UserController.Login), nameof(User));
             }
             Request request = Models.Request.GetRequest(id_request,_requestDAL);
+            if (request == null)
+            {
+                TempData["FailureMessage"] = "An error has occured !";
+                return RedirectToAction(nameof(UserController.Welcome), nameof(User));
+            }
             return View(request);
         }
 
@@ -179,6 +190,11 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
                 return RedirectToAction(nameof(UserController.Login), nameof(User));
             }
             Request request = Models.Request.GetRequest(id_request, _requestDAL);
+            if (request == null)
+            {
+                TempData["FailureMessage"] = "An error has occured !";
+                return RedirectToAction(nameof(UserController.Welcome), nameof(User));
+            }
             HttpContext.Session.Set("CurrentRequest", request);
             return View();
         }

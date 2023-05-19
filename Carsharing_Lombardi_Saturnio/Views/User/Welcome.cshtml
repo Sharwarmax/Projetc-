@@ -1,5 +1,14 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@if (TempData.ContainsKey("SuccessMessage")){
+    <span class="alert alert-success">@TempData["SuccessMessage"] </span>
 }
+@if(TempData.ContainsKey("FailureMessage")){
+    <span class="alert alert-danger">@TempData["FailureMessage"] </span>
+}
+
+<center><h1>Welcome to the homepage!</h1><center>
+
+<div class="btn-group">
+            <a asp-action="ViewMyOffers" asp-controller="Driver" class="btn btn-primary">View Offers as Driver</a>
+            <a asp-action="InsertOffer" asp-controller="Driver" class="btn btn-primary">Create a new Offer</a>
+            <a asp-action="ViewRequests" asp-controller="Driver" class="btn btn-primary">View Requests</a>
+</div>

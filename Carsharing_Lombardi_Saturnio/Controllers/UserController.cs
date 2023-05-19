@@ -51,6 +51,12 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
             return View();
         }
 
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction(nameof(Login));
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
