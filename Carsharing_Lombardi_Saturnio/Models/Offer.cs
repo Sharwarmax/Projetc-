@@ -3,7 +3,6 @@ using Carsharing_Lombardi_Saturnio.IDAL;
 using Carsharing_Lombardi_Saturnio.ViewModels;
 using DataAnnotationsExtensions;
 using System.ComponentModel.DataAnnotations;
-
 namespace Carsharing_Lombardi_Saturnio.Models
 
 {
@@ -65,21 +64,15 @@ namespace Carsharing_Lombardi_Saturnio.Models
         public void TotalPrice() => totalprice = price * numkm;
 
         public void GetOffers() { }
-
+				
         public static Offer GetOffer(int id, IOfferDAL _offerDAL) => _offerDAL.GetOffer(id);
-
         public bool RemoveOffer(IOfferDAL _offerDAL) => _offerDAL.RemoveOffer(this);
         public bool UpdateOffer(IOfferDAL _offerDAL) => _offerDAL.UpdateOffer(this);
-
-        public void ViewAcceptedOffers() { }
-
         public bool InsertOffer(IOfferDAL _offerDAL) => _offerDAL.InsertOffer(this);
         public bool InsertOfferAndUser(IOfferDAL _offerDAL) => _offerDAL.InsertOfferAndUser(this);
 
+        public void ViewAcceptedOffers(User passenger) { }
 
-        public void AddPassenger(User passenger) { }
-
-        public void AddDriver(User driver) { }
-
+        public void AddPassenger(User passenger, IOfferDAL _offerDAL) => _offerDAL.AddPassenger(this,passenger);
     }
 }

@@ -1,4 +1,4 @@
-﻿@if (TempData.ContainsKey("SuccessMessage")){
+@if (TempData.ContainsKey("SuccessMessage")){
     <span class="alert alert-success">@TempData["SuccessMessage"] </span>
 }
 @if(TempData.ContainsKey("FailureMessage")){
@@ -11,4 +11,6 @@
             <a asp-action="ViewMyOffers" asp-controller="Driver" class="btn btn-primary">View Offers as Driver</a>
             <a asp-action="InsertOffer" asp-controller="Driver" class="btn btn-primary">Create a new Offer</a>
             <a asp-action="ViewRequests" asp-controller="Driver" class="btn btn-primary">View Requests</a>
+						<a asp-controller="Passenger" asp-action="ViewOffers" class="btn btn-primary">View Offers as Passenger</a></p>
+						<a asp-controller="Passenger" asp-action="ViewAcceptedOffer" class="btn btn-primary">View your accepted offer as Passenger</a></p>
 </div>

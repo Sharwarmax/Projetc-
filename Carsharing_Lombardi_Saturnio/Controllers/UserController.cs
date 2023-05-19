@@ -16,7 +16,6 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
         {
             _userDAL = userDAL;
         }
-
         public IActionResult Register()
         {
             User user = HttpContext.Session.Get<User>("CurrentUser");
@@ -41,6 +40,7 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
             }
             return View();
         }
+
 
         public IActionResult Login()
         {
@@ -87,7 +87,7 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
                 return RedirectToAction(nameof(Login));
             }
 
-            return View();
+            return View(user);
         }
     }
 }
