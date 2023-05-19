@@ -22,7 +22,7 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
         {
             return View();
         }
-
+        [HttpPost]
         public IActionResult Register()
         {
             return View();
@@ -43,6 +43,7 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
             }
             return View();
         }
+
 
         public IActionResult Login()
         {
@@ -79,7 +80,7 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
                 return RedirectToAction(nameof(Login));
             }
 
-            return View();
+            return View(user);
         }
     }
 }

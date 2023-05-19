@@ -1,4 +1,5 @@
-﻿using Carsharing_Lombardi_Saturnio.IDAL;
+﻿using Carsharing_Lombardi_Saturnio.DAL;
+using Carsharing_Lombardi_Saturnio.IDAL;
 namespace Carsharing_Lombardi_Saturnio.Models
 
 {
@@ -24,11 +25,11 @@ namespace Carsharing_Lombardi_Saturnio.Models
 
         public static Offer GetOffer(int id, IOfferDAL _offerDAL) => _offerDAL.GetOffer(id);
 
-        public void ViewAcceptedOffers() { }
+        public void ViewAcceptedOffers(User passenger) { }
 
-        public void InsertOffer() { }
+        public void InsertOffer(Offer offer) { }
 
-        public void AddPassenger(User passenger) { }
+        public void AddPassenger(User passenger, IOfferDAL _offerDAL) => _offerDAL.AddPassenger(this,passenger);
 
         public void AddDriver(User driver) { }
 

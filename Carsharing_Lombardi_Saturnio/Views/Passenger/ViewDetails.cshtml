@@ -1,0 +1,27 @@
+﻿@model Offer
+<h1>View Details</h1>
+<table class="table">
+	<tr> 
+        <th>Date</th>
+        <th>Starting point</th>
+        <th>Destination</th>
+        <th>Number of passengers</th>
+        <th>Price (€)</th>
+	</tr>
+    <tr>
+        <td>@Model.Date.ToString("dd/MM/yyyy")</td>
+        <td>@Model.StartPoint</td>
+        <td>@Model.Destination</td>
+        <td>@Model.NbPassengerMax</td>
+        <td>@Model.Price</td>
+    </tr>
+</table>
+@if(Model.NbPassengerMax < 4)
+{
+    <p>Accepte the offer? <a asp-controller="Passenger" asp-action="AcceptedOffer">Accept</a></p>
+}
+else
+{
+    <p>This Offer is completed sorry...</p>
+}
+<a asp-controller="Passenger" asp-action="ViewOffers">Return</a>

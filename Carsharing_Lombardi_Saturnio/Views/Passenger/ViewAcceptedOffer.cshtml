@@ -1,0 +1,32 @@
+﻿@model List<Offer>
+<h1>View Accepted Offer</h1>
+@if (Model == null)
+{
+	<span class="alert alert-danger">There is no Accepted offer...</span>
+	<a asp-action="Welcome" asp-controller="User">Return</a>
+}
+else
+{
+	@if (TempData["SuccessMessage"] != null)
+	{
+		<span class="alert alert-success"> @TempData["SuccessMessage"]</span>
+	}
+	<table class="table">
+		<tr>
+			<th>Destination</th>
+			<th>Starting point</th>
+		</tr>
+		@foreach (var offer in Model)
+		{
+			<tr>
+				<td>@offer.Destination</td>
+				<td>@offer.StartPoint</td>
+				@if (offer.Completed == false)
+				{
+					<td><a asp-action="ViewDetails" asp-route-id_offer="@offer.Id_Offer">Details</a></td>
+				}
+			</tr>
+		}
+	</table>
+}
+<a asp-controller="User" asp-action="Welcome">Return</a>
