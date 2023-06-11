@@ -1,9 +1,9 @@
 ﻿@model User
-@if(Model == null)
+@if(Model.Offers_Driver == null)
 {
 
-    <span class="alert alert-danger">The selected category was not found</span>
-    <a asp-action="Category">See the different categories</a>
+    <span class="alert alert-danger">There's no offers that you made as a driver'</span>
+    <a asp-action="Welcome" asp-controller="User">Go back to welcome page</a>
 }
 else
 {
@@ -15,7 +15,7 @@ else
         <th>Starting point</th>
         <th>Destination</th>
         <th>Number of passenger</th>
-        <th>Price</th>
+        <th>Price per km (€)</th>
     </tr>
     @foreach (var offer in Model.Offers_Driver)
     {
@@ -27,7 +27,7 @@ else
             <td>@offer.Price</td>
             @if(offer.Completed == false)
             {
-                    <td><a asp-action="MyOfferDetails" asp-route-id_offer="@offer.Id_Offer">Details</a></td>
+                    <td><a asp-action="OfferDetails" asp-route-id_offer="@offer.Id_Offer">Details</a></td>
             }
         </tr>
     }

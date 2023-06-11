@@ -3,7 +3,7 @@
 {
 
     <span class="alert alert-danger">The selected offer isn't found</span>
-    <a asp-action="Login">Go back to homepage</a>
+    <a asp-action="Welcome" asp-controller="User">Go back to welcome page</a>
 }
 else
 {
@@ -13,15 +13,22 @@ else
             <th>Date</th>
             <th>Starting point</th>
             <th>Destination</th>
-            <th>Number of passengers</th>
-            <th>Price (€)</th>
+            <th>Departure Time</th>
+            <th>Maximum number  of passengers</th>
+            <th>Number of kms</th>
+            <th>Price per km (€)</th>
+            <th>Total Price (€)</th>
+
         </tr>
         <tr>
             <td>@Model.Date.ToString("dd/MM/yyyy")</td>
             <td>@Model.StartPoint</td>
             <td>@Model.Destination</td>
+            <td>@Model.DepartureTime.TimeOfDay</td>
             <td>@Model.NbPassengerMax</td>
+            <td>@Model.Numkm</td>
             <td>@Model.Price</td>
+            <td>@Model.Totalprice</td>
             @if(Model.Completed == false)
             {
                 <td><a asp-action="EditOffer" asp-route-id_offer="@Model.Id_Offer">Edit</a></td>

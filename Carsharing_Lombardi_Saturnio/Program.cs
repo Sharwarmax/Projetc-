@@ -14,6 +14,7 @@ builder.Services.AddSession(options =>
 });
 builder.Services.AddTransient<IUserDAL>(md => new UserDAL(connectionString));
 builder.Services.AddTransient<IOfferDAL>(md => new OfferDAL(connectionString));
+builder.Services.AddTransient<IRequestDAL>(md => new RequestDAL(connectionString));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

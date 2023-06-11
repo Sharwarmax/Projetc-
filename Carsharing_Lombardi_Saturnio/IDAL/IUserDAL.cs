@@ -6,7 +6,7 @@ namespace Carsharing_Lombardi_Saturnio.IDAL
     {
         public bool CheckUsername(string username);
 
-        public User Login(User user);
+        public bool Login(User user);
 
         public bool Register(User user);
     }

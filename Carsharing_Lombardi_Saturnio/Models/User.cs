@@ -44,21 +44,11 @@ namespace Carsharing_Lombardi_Saturnio.Models
 
         public bool CheckUsername(IUserDAL _userDAL) => _userDAL.CheckUsername(this.Username);
 
-        public void Login(IUserDAL _userDAL) => _userDAL.Login(this);
+        public bool Login(IUserDAL _userDAL) => _userDAL.Login(this);
 
         public List<Offer> ViewMyOffers(IOfferDAL _offerDAL) => _offerDAL.ViewMyOffers(this);
-		public List<Offer> ViewOffers(IOfferDAL _offerDAL) => _offerDAL.ViewOffers(this);
 
-		public void AddOffer(Offer offer) { }
-
-        public void EditOffer(Offer offer) { }
-
-        public void RemoveMyOffer() { }
-
-        public void ContactPassenger() { }
-
-        public void ContactDriver() { }
-
-        public void AddRequest() { }
+				public List<Offer> ViewOffers(IOfferDAL _offerDAL) => _offerDAL.ViewOffers(this);
+ 
     }
 }
