@@ -32,6 +32,7 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
 
         public IActionResult OfferDetails(int id_offer)
         {
+            float total_price = 0f;
             User driver = HttpContext.Session.Get<User>("CurrentUser");
             if (driver == null)
             {
@@ -44,7 +45,7 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
                 TempData["FailureMessage"] = "An error has occured !";
                 return RedirectToAction(nameof(UserController.Welcome), nameof(User));
             }
-            offer.TotalPrice();
+            ViewData["TotalPrice"] = offer.TotalPrice();
             return View(offer);
         }
 

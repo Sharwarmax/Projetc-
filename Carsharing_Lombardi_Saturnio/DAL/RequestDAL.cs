@@ -27,7 +27,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                         requests = new List<Request>();
                         Request request = new Request();
                         request.Date = reader.GetDateTime("Date");
-                        request.Id_Request = reader.GetInt32("Id_Request");
+                        request.Id = reader.GetInt32("Id_Request");
                         request.StartPoint = reader.GetString("StartPoint");
                         request.Destination = reader.GetString("Destination");
                         request.DepartureTime = reader.GetDateTime("Departure_Time");
@@ -55,7 +55,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                     {
                         request = new Request();
                         request.Date = reader.GetDateTime("Date");
-                        request.Id_Request = reader.GetInt32("Id_Request");
+                        request.Id = reader.GetInt32("Id_Request");
                         request.StartPoint = reader.GetString("StartPoint");
                         request.Destination = reader.GetString("Destination");
                         request.DepartureTime = reader.GetDateTime("Departure_Time");
@@ -76,7 +76,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
             {
                 SqlCommand cmd = new SqlCommand("DELETE FROM Saturnio_Lombardi.dbo.[Request] " +
                     "WHERE Id_Request = @Id_Request", connection);
-                cmd.Parameters.AddWithValue("Id_Request", request.Id_Request);
+                cmd.Parameters.AddWithValue("Id_Request", request.Id);
                 connection.Open();
                 int res = cmd.ExecuteNonQuery();
                 result = res > 0;

@@ -28,7 +28,7 @@ else
             <td>@Model.NbPassengerMax</td>
             <td>@Model.Numkm</td>
             <td>@Model.Price</td>
-            <td>@Model.Totalprice</td>
+            <td>@ViewData["TotalPrice"]</td>
             @if(Model.Completed == false)
             {
                 <td><a asp-action="EditOffer" asp-route-id_offer="@Model.Id_Offer">Edit</a></td>

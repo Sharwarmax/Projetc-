@@ -11,8 +11,9 @@ namespace Carsharing_Lombardi_Saturnio.Models
         private int phone_number;
         private string username;
         private string password;
-        private List<Offer> offers_driver;
-        private List<Offer> offers_passengers;
+        private List<Offer> offers_driver = new();
+        private List<Offer> offers_passengers = new();
+        private List<Request> requests = new();
 
 
         public int Id { get => id; set => id = value; }
@@ -23,6 +24,9 @@ namespace Carsharing_Lombardi_Saturnio.Models
         public string Password { get => password; set => password = value; }
         public List<Offer> Offers_Driver { get => offers_driver; set => offers_driver = value; }
         public List<Offer> Offers_Passengers { get => offers_passengers; set => offers_passengers = value; }
+        public List<Request> Requests { get => requests; set => requests = value; }
+
+
 
         public User() { }
         public User(RegisterViewModel vm)

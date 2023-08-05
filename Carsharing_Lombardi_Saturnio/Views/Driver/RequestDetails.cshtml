@@ -7,7 +7,7 @@
 }
 else
 {
-<h1><Center>Requests details @Model.Id_Request</Center></h1>
+    <h1><Center>Requests details @Model.Id</Center></h1>
     <table class="table">
         <tr>
             <th>Date</th>
@@ -23,7 +23,7 @@ else
             <td>@Model.Destination</td>
             <td>@Model.DepartureTime.TimeOfDay</td>
             <td>@Model.User.Username</td>
-            <td><a asp-action="InsertOfferWithRequest" asp-route-id_request="@Model.Id_Request">Add to offers</a></td>
+            <td><a asp-action="InsertOfferWithRequest" asp-route-id_request="@Model.Id">Add to offers</a></td>
     
     </table>
         

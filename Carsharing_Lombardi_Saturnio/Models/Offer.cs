@@ -11,7 +11,6 @@ namespace Carsharing_Lombardi_Saturnio.Models
         private int id_offer;
         private float numkm;
         private float price;
-        private float totalprice;
         private int nbpassengersmax;
         private bool completed;
         private List<User> passengers = new List<User>();
@@ -20,7 +19,6 @@ namespace Carsharing_Lombardi_Saturnio.Models
         public int Id_Offer { get => id_offer; set => id_offer = value; }
         public float Numkm { get => numkm; set => numkm = value; }
         public float Price { get => price; set => price = value; }
-        public float Totalprice { get => totalprice; }
         public int NbPassengerMax { get => nbpassengersmax; set => nbpassengersmax = value; }
         public bool Completed { get => completed; set => completed = value; }
         public List<User> Passengers { get => passengers; set => passengers = value; }
@@ -61,7 +59,7 @@ namespace Carsharing_Lombardi_Saturnio.Models
             Numkm= request_offer.Numkm;
         }
 
-        public void TotalPrice() => totalprice = price * numkm;
+        public float TotalPrice() => price * numkm;
 
         public void GetOffers() { }
 				

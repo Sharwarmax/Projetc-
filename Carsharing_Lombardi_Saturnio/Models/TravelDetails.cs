@@ -5,10 +5,18 @@ namespace Carsharing_Lombardi_Saturnio.Models
 {
     public abstract class TravelDetails
     {
+        private int id=0;
         private string destination;
         private DateTime date;
         private DateTime departuretime;
         private string startpoint;
+
+        
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
 
         [Required(ErrorMessage = "The destination field is required!"), StringLength(30, ErrorMessage = "the name of destination is invalid!")]
         public string Destination
