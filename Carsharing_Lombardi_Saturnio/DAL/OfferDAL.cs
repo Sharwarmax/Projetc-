@@ -188,10 +188,12 @@ namespace Carsharing_Lombardi_Saturnio.DAL
             }
 
         }
+        //Retourne les offres acceptée
         public List<Offer> ViewAcceptedOffers(User passenger)
         {
+            //vérifier la condition car retourne toutes les offres et pas juste les offres acceptée
             List<Offer> offers = new List<Offer>();
-            using (SqlConnection connection = new SqlConnection(connectionString))
+			using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand("SELECT o.Date, o.Id_Offer, o.NbPassengersMax, " +
                     "o.StartPoint, o.Destination, o.Price, o.Completed, o.NumKm, o.Departure_Time, " +
@@ -200,9 +202,10 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                     "INNER JOIN Saturnio_Lombardi.[dbo].[Users_Offers] ou " +
                     "ON o.Id_Offer = ou.Id_Offer " +
                     "INNER JOIN Saturnio_Lombardi.[dbo].[User] uf " +
-                    "ON ou.Id_User = uf.Id_User ", connection);
-
-                connection.Open();
+                    "ON ou.Id_User = uf.Id_User "+
+					"WHERE ou.Id_User = @Id", connection);
+				cmd.Parameters.AddWithValue("Id", passenger.Id);
+				connection.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())

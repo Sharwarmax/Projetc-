@@ -16,12 +16,4 @@
         <td>@Model.Price</td>
     </tr>
 </table>
-@if(Model.NbPassengerMax < 4)
-{
-    <p>Accepte the offer? <a asp-controller="Passenger" asp-action="AcceptedOffer">Accept</a></p>
-}
-else
-{
-    <p>This Offer is completed sorry...</p>
-}
 <a asp-controller="Passenger" asp-action="ViewOffers">Return</a>
