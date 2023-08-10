@@ -10,8 +10,6 @@ namespace Carsharing_Lombardi_Saturnio.Models
         private DateTime date;
         private DateTime departuretime;
         private string startpoint;
-
-        
         public int Id
         {
             get { return id; }

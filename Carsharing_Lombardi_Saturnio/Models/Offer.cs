@@ -1,5 +1,5 @@
 ﻿using Carsharing_Lombardi_Saturnio.DAL;
-using Carsharing_Lombardi_Saturnio.IDAL;
+using Carsharing_Lombardi_Saturnio.DAL.IDAL;
 using Carsharing_Lombardi_Saturnio.ViewModels;
 using DataAnnotationsExtensions;
 using System.ComponentModel.DataAnnotations;

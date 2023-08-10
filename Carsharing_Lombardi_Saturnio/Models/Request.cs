@@ -1,4 +1,5 @@
-﻿using Carsharing_Lombardi_Saturnio.IDAL;
+﻿using Carsharing_Lombardi_Saturnio.DAL;
+using Carsharing_Lombardi_Saturnio.DAL.IDAL;
 
 namespace Carsharing_Lombardi_Saturnio.Models
 {
@@ -12,8 +13,8 @@ namespace Carsharing_Lombardi_Saturnio.Models
 
         public static Request GetRequest(int id, IRequestDAL _requestDAL) => _requestDAL.GetRequest(id);
 
-        public void InsertRequest() { }
+        public bool InsertRequest(IRequestDAL _requestDAL) => _requestDAL.InsertRequest(this);
 
-        public bool RemoveRequest(IRequestDAL _requestDAL) => _requestDAL.RemoveRequest(this);
+		public bool RemoveRequest(IRequestDAL _requestDAL) => _requestDAL.RemoveRequest(this);
     }
 }

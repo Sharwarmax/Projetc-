@@ -1,6 +1,6 @@
 ﻿using Carsharing_Lombardi_Saturnio.Models;
 
-namespace Carsharing_Lombardi_Saturnio.IDAL
+namespace Carsharing_Lombardi_Saturnio.DAL.IDAL
 {
     public interface IRequestDAL
     {
@@ -8,7 +8,7 @@ namespace Carsharing_Lombardi_Saturnio.IDAL
         public Request GetRequest(int Id_Request);
 
         public bool RemoveRequest(Request request);
-
+        public bool InsertRequest(Request request);
 
     }
 }

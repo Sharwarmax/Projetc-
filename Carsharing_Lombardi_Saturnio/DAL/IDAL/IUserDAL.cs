@@ -1,6 +1,6 @@
 ﻿using Carsharing_Lombardi_Saturnio.Models;
 
-namespace Carsharing_Lombardi_Saturnio.IDAL
+namespace Carsharing_Lombardi_Saturnio.DAL.IDAL
 {
     public interface IUserDAL
     {

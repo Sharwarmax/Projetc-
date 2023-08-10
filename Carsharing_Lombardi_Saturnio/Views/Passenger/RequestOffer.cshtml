@@ -1,2 +1,23 @@
-﻿<h1>Request Offer</h1>
+﻿@using Carsharing_Lombardi_Saturnio.ViewModels;
+@model InsertRequestViewModel
+@if (TempData.ContainsKey("FailureMessage"))
+{
+    <span class="alert alert-danger">@TempData["FailureMessage"] </span>
+}
+<h1>Request Offer</h1>
+    <form asp-controller="Passenger" asp-action="RequestOffer" method="post">
+        <label asp-for="StartPoint"></label><br>
+        <input asp-for="StartPoint" /><br>
+        <span asp-validation-for="StartPoint"></span><br>
+        <label asp-for="Destination"></label><br>
+        <input asp-for="Destination" /><br>
+        <span asp-validation-for="Destination"></span><br>
+        <label asp-for="Date"></label><br>
+        <input asp-for="Date" /><br>
+        <span asp-validation-for="Date"></span><br>
+        <label asp-for="DepartureTime"></label><br>
+        <input asp-for="DepartureTime" /><br>
+        <span asp-validation-for="DepartureTime"></span><br>
+        <input type="submit" value="Submit" />
+    </form>
 <a asp-controller="Passenger" asp-action="ViewOffers">Return</a>

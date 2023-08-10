@@ -1,5 +1,6 @@
-﻿using Carsharing_Lombardi_Saturnio.IDAL;
+﻿using Carsharing_Lombardi_Saturnio.DAL.IDAL;
 using Carsharing_Lombardi_Saturnio.Models;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -83,6 +84,23 @@ namespace Carsharing_Lombardi_Saturnio.DAL
             }
             return result;
         }
-
+        public bool InsertRequest(Request request)
+        {
+			bool flag = false;
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				SqlCommand cmd = new SqlCommand("INSERT INTO Saturnio_Lombardi.dbo.[Request] (Id_User , Destination, Date, Departure_Time, StartPoint) " +
+					"VALUES(@Id_User, @Destination, @Date, @Departure_Time, @StartPoint)", connection);
+				cmd.Parameters.AddWithValue("Id_User", request.User.Id);
+				cmd.Parameters.AddWithValue("Destination", request.Destination);
+				cmd.Parameters.AddWithValue("StartPoint", request.StartPoint);
+				cmd.Parameters.AddWithValue("Date", request.Date);
+				cmd.Parameters.AddWithValue("Departure_Time", request.DepartureTime.TimeOfDay);
+				connection.Open();
+                int res = cmd.ExecuteNonQuery();
+                flag = res > 0;
+            }
+			return flag;
+        }
     }
 }

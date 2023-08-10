@@ -1,4 +1,4 @@
-﻿using Carsharing_Lombardi_Saturnio.IDAL;
+﻿using Carsharing_Lombardi_Saturnio.DAL.IDAL;
 using Carsharing_Lombardi_Saturnio.ViewModels;
 
 namespace Carsharing_Lombardi_Saturnio.Models

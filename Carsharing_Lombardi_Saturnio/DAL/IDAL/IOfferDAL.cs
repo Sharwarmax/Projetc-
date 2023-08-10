@@ -1,6 +1,6 @@
 ﻿using Carsharing_Lombardi_Saturnio.Models;
 
-namespace Carsharing_Lombardi_Saturnio.IDAL
+namespace Carsharing_Lombardi_Saturnio.DAL.IDAL
 {
     public interface IOfferDAL
     {
@@ -10,7 +10,7 @@ namespace Carsharing_Lombardi_Saturnio.IDAL
         public bool UpdateOffer(Offer offer);
         public bool InsertOffer(Offer offer);
         public bool InsertOfferAndUser(Offer offer);
-				public List<Offer> ViewOffers(User passenger);
+        public List<Offer> ViewOffers(User passenger);
         public List<Offer> GetOffers();
         public void AddPassenger(Offer offer, User passenger);
         public List<Offer> ViewAcceptedOffers(User passenger);

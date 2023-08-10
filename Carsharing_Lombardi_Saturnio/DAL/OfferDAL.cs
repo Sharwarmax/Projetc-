@@ -1,10 +1,10 @@
-﻿using Carsharing_Lombardi_Saturnio.IDAL;
-using Carsharing_Lombardi_Saturnio.Models;
+﻿using Carsharing_Lombardi_Saturnio.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Data;
 using System.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using Carsharing_Lombardi_Saturnio.DAL.IDAL;
 
 namespace Carsharing_Lombardi_Saturnio.DAL
 {
@@ -191,7 +191,6 @@ namespace Carsharing_Lombardi_Saturnio.DAL
         //Retourne les offres acceptée
         public List<Offer> ViewAcceptedOffers(User passenger)
         {
-            //vérifier la condition car retourne toutes les offres et pas juste les offres acceptée
             List<Offer> offers = new List<Offer>();
 			using (SqlConnection connection = new SqlConnection(connectionString))
             {

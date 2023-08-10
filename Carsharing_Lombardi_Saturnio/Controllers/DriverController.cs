@@ -1,5 +1,5 @@
-﻿using Carsharing_Lombardi_Saturnio.Extensions;
-using Carsharing_Lombardi_Saturnio.IDAL;
+﻿using Carsharing_Lombardi_Saturnio.DAL.IDAL;
+using Carsharing_Lombardi_Saturnio.Extensions;
 using Carsharing_Lombardi_Saturnio.Models;
 using Carsharing_Lombardi_Saturnio.ViewModels;
 using Microsoft.AspNetCore.Mvc;
