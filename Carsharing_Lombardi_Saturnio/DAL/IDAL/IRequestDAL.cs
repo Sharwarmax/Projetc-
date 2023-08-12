@@ -4,7 +4,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL.IDAL
 {
     public interface IRequestDAL
     {
-        public List<Request> GetRequests();
+        public List<Request> GetRequests(User passenger);
         public Request GetRequest(int Id_Request);
 
         public bool RemoveRequest(Request request);

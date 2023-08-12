@@ -29,30 +29,22 @@ namespace Carsharing_Lombardi_Saturnio.Models
 
 
         public User() { }
-        public User(RegisterViewModel vm)
-        {
-            First_name = vm.First_Name;
-            Last_name = vm.Last_Name;
-            Phone_number = vm.Phone_number;
-            Username = vm.Username;
-            Password = vm.Password;
-        }
-
-        public User(LoginViewModel vm)
-        {
-            Username= vm.Username;
-            Password= vm.Password;
-        }
 
         public void Register(IUserDAL _userDAL) => _userDAL.Register(this);
 
         public bool CheckUsername(IUserDAL _userDAL) => _userDAL.CheckUsername(this.Username);
 
-        public bool Login(IUserDAL _userDAL) => _userDAL.Login(this);
+        public bool Login(IUserDAL _userDAL, IOfferDAL _offerDAL)
+        {
+			if (_userDAL.Login(this))
+            {
+                this.Offers_Driver = Offer.ViewMyOffers(_offerDAL, this);
+                this.Offers_Passengers = Offer.ViewAcceptedOffers(_offerDAL, this);
+                return true;
+            }
+            return false;
 
-        public List<Offer> ViewMyOffers(IOfferDAL _offerDAL) => _offerDAL.ViewMyOffers(this);
-
-				public List<Offer> ViewOffers(IOfferDAL _offerDAL) => _offerDAL.ViewOffers(this);
+        }
  
     }
 }

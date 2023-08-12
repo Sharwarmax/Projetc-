@@ -31,7 +31,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                     {
                         Offer offer = new Offer();
                         offer.Date = reader.GetDateTime("Date");
-                        offer.Id_Offer = reader.GetInt32("Id_Offer");
+                        offer.Id = reader.GetInt32("Id_Offer");
                         offer.NbPassengerMax = reader.GetInt32("NbPassengersMax");
                         offer.StartPoint = reader.GetString("StartPoint");
                         offer.Destination = reader.GetString("Destination");
@@ -66,7 +66,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                     {
                         offer.Date = reader.GetDateTime("Date");
                         offer.DepartureTime = reader.GetDateTime("Departure_Time");
-                        offer.Id_Offer = reader.GetInt32("Id_Offer");
+                        offer.Id = reader.GetInt32("Id_Offer");
                         offer.NbPassengerMax = reader.GetInt32("NbPassengersMax");
                         offer.StartPoint = reader.GetString("StartPoint");
                         offer.Destination = reader.GetString("Destination");
@@ -94,7 +94,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                         }
                     }
                 }
-                if (offer.Id_Offer == 0)
+                if (offer.Id == 0)
                     return null;
             }
             return offer;
@@ -105,7 +105,8 @@ namespace Carsharing_Lombardi_Saturnio.DAL
             List<Offer> offers_passenger = new List<Offer>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT Id_Offer,StartPoint, Destination FROM Saturnio_Lombardi.[dbo].[Offer]", connection);
+                SqlCommand cmd = new SqlCommand("SELECT Id_Offer,StartPoint, Destination FROM Saturnio_Lombardi.[dbo].[Offer] WHERE Id_User != @Id_User " +
+                    "AND Date >= CAST(GETDATE() AS Date)", connection);
                 cmd.Parameters.AddWithValue("Id_User", passenger.Id);
                 connection.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader())
@@ -113,7 +114,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                     while (reader.Read())
                     {
                         Offer offer = new Offer();
-                        offer.Id_Offer = reader.GetInt32("Id_Offer");
+                        offer.Id = reader.GetInt32("Id_Offer");
                         offer.StartPoint = reader.GetString("StartPoint");
                         offer.Destination = reader.GetString("Destination");
                         offers_passenger.Add(offer);
@@ -142,7 +143,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
 					{
                         Offer offer = new Offer();
 						offer.Date = reader.GetDateTime("Date");
-						offer.Id_Offer = reader.GetInt32("Id_Offer");
+						offer.Id = reader.GetInt32("Id_Offer");
 						offer.NbPassengerMax = reader.GetInt32("NbPassengersMax");
 						offer.StartPoint = reader.GetString("StartPoint");
 						offer.Destination = reader.GetString("Destination");
@@ -181,7 +182,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
 			{
                 SqlCommand cmd = new SqlCommand("INSERT INTO Saturnio_Lombardi.[dbo].[Users Offers]" +
                                                 "(Id_Offer,Id_User,Type) VALUES (@Id_offer,@Id_User,@Type))", connection);
-                cmd.Parameters.AddWithValue("@Id_offer", offer.Id_Offer);
+                cmd.Parameters.AddWithValue("@Id_offer", offer.Id);
 				cmd.Parameters.AddWithValue("@Id_User", passenger.Id);
 				cmd.Parameters.AddWithValue("@Type", "Passenger");
                 connection.Open();
@@ -202,7 +203,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                     "ON o.Id_Offer = ou.Id_Offer " +
                     "INNER JOIN Saturnio_Lombardi.[dbo].[User] uf " +
                     "ON ou.Id_User = uf.Id_User "+
-					"WHERE ou.Id_User = @Id", connection);
+					"WHERE ou.Id_User = @Id AND Type = 'Passenger'", connection);
 				cmd.Parameters.AddWithValue("Id", passenger.Id);
 				connection.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader())
@@ -212,7 +213,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                         Offer offer = new Offer();
                         offer.Date = reader.GetDateTime("Date");
                         offer.DepartureTime = reader.GetDateTime("Departure_Time");
-                        offer.Id_Offer = reader.GetInt32("Id_Offer");
+                        offer.Id = reader.GetInt32("Id_Offer");
                         offer.NbPassengerMax = reader.GetInt32("NbPassengersMax");
                         offer.StartPoint = reader.GetString("StartPoint");
                         offer.Destination = reader.GetString("Destination");
@@ -226,16 +227,6 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                             offer.Driver.Last_name = reader.GetString("Last_name");
                             offer.Driver.Phone_number = reader.GetInt32("Phone_number");
                             offer.Driver.Username = reader.GetString("Username");
-                        }
-
-                        if (reader.GetString("Type") == "Passenger")
-                        {
-                            passenger.Id = reader.GetInt32("Id_User");
-                            passenger.First_name = reader.GetString("First_name");
-                            passenger.Last_name = reader.GetString("Last_name");
-                            passenger.Phone_number = reader.GetInt32("Phone_number");
-                            passenger.Username = reader.GetString("Username");
-                            offer.Passengers.Add(passenger);
                         }
                         offers.Add(offer);
                     }
@@ -254,7 +245,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                 SqlCommand cmd = new SqlCommand("DELETE o FROM Saturnio_Lombardi.dbo.[Offer] o " +
                     "INNER JOIN Saturnio_Lombardi.dbo.[Users_Offers] uo " +
                     "ON o.Id_Offer = uo.Id_Offer WHERE o.Id_Offer = @Id_Offer", connection);
-                cmd.Parameters.AddWithValue("Id_Offer", offer.Id_Offer);
+                cmd.Parameters.AddWithValue("Id_Offer", offer.Id);
                 connection.Open();
                 int res = cmd.ExecuteNonQuery();
                 result = res > 0;
@@ -270,7 +261,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                 SqlCommand cmd = new SqlCommand("UPDATE Saturnio_Lombardi.dbo.[Offer] SET NumKm = @NumKm, Price = @Price, " +
                     "Destination = @Destination, StartPoint = @StartPoint, Date = @Date, Departure_Time = @Departure_Time " +
                     "WHERE Id_Offer = @Id_Offer", connection);
-                cmd.Parameters.AddWithValue("Id_Offer", offer.Id_Offer);
+                cmd.Parameters.AddWithValue("Id_Offer", offer.Id);
                 cmd.Parameters.AddWithValue("NumKm", offer.Numkm);
                 cmd.Parameters.AddWithValue("Price", offer.Price);
                 cmd.Parameters.AddWithValue("Destination", offer.Destination);

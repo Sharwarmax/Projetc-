@@ -8,7 +8,6 @@ namespace Carsharing_Lombardi_Saturnio.Models
 {
     public class Offer : TravelDetails
     {
-        private int id_offer;
         private float numkm;
         private float price;
         private int nbpassengersmax;
@@ -16,7 +15,6 @@ namespace Carsharing_Lombardi_Saturnio.Models
         private List<User> passengers = new List<User>();
         private User driver = new User();
 
-        public int Id_Offer { get => id_offer; set => id_offer = value; }
         public float Numkm { get => numkm; set => numkm = value; }
         public float Price { get => price; set => price = value; }
         public int NbPassengerMax { get => nbpassengersmax; set => nbpassengersmax = value; }
@@ -25,39 +23,6 @@ namespace Carsharing_Lombardi_Saturnio.Models
         public User Driver { get => driver; set => driver = value; }
 
         public Offer() { }
-
-        public Offer(EditOfferViewModel editOffer)
-        {
-            Destination = editOffer.Destination;
-            StartPoint = editOffer.StartPoint;
-            Date = editOffer.Date;
-            DepartureTime = editOffer.DepartureTime;
-            Numkm = editOffer.Numkm;
-            Price = editOffer.Price;
-        }
-
-        public Offer(InsertOfferViewModel insertoffer)
-        {
-            Numkm = insertoffer.Numkm;
-            NbPassengerMax = insertoffer.NbPassengerMax;
-            Price = insertoffer.Price;
-            Destination = insertoffer.Destination;
-            StartPoint = insertoffer.StartPoint;
-            Date = insertoffer.Date;
-            DepartureTime = insertoffer.DepartureTime;
-        }
-
-        public Offer(Request request, InsertOfferWithRequestViewModel request_offer)
-        {
-            Destination = request.Destination;
-            StartPoint = request.StartPoint;
-            Date = request.Date;
-            DepartureTime= request.DepartureTime;
-            Passengers.Add(request.User);
-            Price = request_offer.Price;
-            NbPassengerMax= request_offer.NbPassengerMax;
-            Numkm= request_offer.Numkm;
-        }
 
         public float TotalPrice() => price * numkm;
 
@@ -69,8 +34,13 @@ namespace Carsharing_Lombardi_Saturnio.Models
         public bool InsertOffer(IOfferDAL _offerDAL) => _offerDAL.InsertOffer(this);
         public bool InsertOfferAndUser(IOfferDAL _offerDAL) => _offerDAL.InsertOfferAndUser(this);
 
-        public void ViewAcceptedOffers(User passenger) { }
+        public static List<Offer> ViewAcceptedOffers(IOfferDAL _offerDAL,User passenger) => _offerDAL.ViewAcceptedOffers(passenger);
 
         public void AddPassenger(User passenger, IOfferDAL _offerDAL) => _offerDAL.AddPassenger(this,passenger);
-    }
+        public static List<Offer>  ViewMyOffers(IOfferDAL _offerDAL, User user) => _offerDAL.ViewMyOffers(user);
+
+		public static List<Offer> ViewOffers(IOfferDAL _offerDAL, User user) => _offerDAL.ViewOffers(user);
+
+
+	}
 }

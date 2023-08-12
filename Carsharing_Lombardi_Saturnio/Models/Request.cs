@@ -9,7 +9,7 @@ namespace Carsharing_Lombardi_Saturnio.Models
 
         public User User { get => user; set => user = value; }
 
-        public static List<Request> GetRequests(IRequestDAL _requestDAL) => _requestDAL.GetRequests();
+        public static List<Request> GetRequests(IRequestDAL _requestDAL, User user) => _requestDAL.GetRequests(user);
 
         public static Request GetRequest(int id, IRequestDAL _requestDAL) => _requestDAL.GetRequest(id);
 

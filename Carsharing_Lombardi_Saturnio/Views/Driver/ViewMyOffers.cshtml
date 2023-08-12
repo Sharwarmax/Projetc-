@@ -1,5 +1,5 @@
-﻿@model User
-@if(Model.Offers_Driver == null)
+﻿@model List<Offer>
+@if(Model == null)
 {
 
     <span class="alert alert-danger">There's no offers that you made as a driver'</span>
@@ -17,7 +17,7 @@ else
         <th>Number of passenger</th>
         <th>Price per km (€)</th>
     </tr>
-    @foreach (var offer in Model.Offers_Driver)
+    @foreach (var offer in Model)
     {
         <tr>
             <td>@offer.Date.ToString("dd/MM/yyyy")</td>
@@ -27,7 +27,7 @@ else
             <td>@offer.Price</td>
             @if(offer.Completed == false)
             {
-                    <td><a asp-action="OfferDetails" asp-route-id_offer="@offer.Id_Offer">Details</a></td>
+                    <td><a asp-action="OfferDetails" asp-route-id_offer="@offer.Id">Details</a></td>
             }
         </tr>
     }

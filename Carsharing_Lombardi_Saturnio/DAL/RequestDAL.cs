@@ -14,12 +14,13 @@ namespace Carsharing_Lombardi_Saturnio.DAL
             this.connectionString = connectionString;
         }
 
-        public List<Request> GetRequests()
+        public List<Request> GetRequests(User passenger)
         {
             List<Request> requests = null;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Saturnio_Lombardi.dbo.[Request]", connection);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Saturnio_Lombardi.dbo.[Request] WHERE Date >= CAST(GETDATE() As Date) AND Id_User != @Id_User", connection);
+                cmd.Parameters.AddWithValue("Id_User", passenger.Id);
                 connection.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
@@ -90,7 +91,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				SqlCommand cmd = new SqlCommand("INSERT INTO Saturnio_Lombardi.dbo.[Request] (Id_User , Destination, Date, Departure_Time, StartPoint) " +
-					"VALUES(@Id_User, @Destination, @Date, @Departure_Time, @StartPoint)", connection);
+					"VALUES(@Id_User, @Destination, @Date, @Departure_Time, @StartPoint);", connection);
 				cmd.Parameters.AddWithValue("Id_User", request.User.Id);
 				cmd.Parameters.AddWithValue("Destination", request.Destination);
 				cmd.Parameters.AddWithValue("StartPoint", request.StartPoint);

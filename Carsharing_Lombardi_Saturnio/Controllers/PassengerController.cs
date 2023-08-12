@@ -10,14 +10,16 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
 {
     public class PassengerController : Controller
     {
+		private readonly IUserDAL _userDAL;
         private readonly IOfferDAL _offerDAL;
 		private readonly IRequestDAL _requestDAL;
 
 
-        public PassengerController(IOfferDAL offerDAL, IRequestDAL requestDAL)
+        public PassengerController(IOfferDAL offerDAL, IRequestDAL requestDAL, IUserDAL userDAL)
         {
 			_offerDAL = offerDAL;
 			_requestDAL = requestDAL;
+			_userDAL = userDAL;
         }
 
         public IActionResult ViewOffers()
@@ -28,8 +30,8 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
                 TempData["NotConnected"] = "Please log into your account.";
                 return RedirectToAction(nameof(UserController.Login), nameof(User));
             }
-            passenger.Offers_Passengers = passenger.ViewOffers(_offerDAL);
-            return View(passenger);
+			List<Offer> offers = Offer.ViewOffers(_offerDAL, passenger);
+            return View(offers);
         }
 		public IActionResult ViewDetails(int id_offer)
 		{
@@ -64,8 +66,8 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
 				TempData["NotConnected"] = "Please log into your account.";
 				return RedirectToAction(nameof(UserController.Login), nameof(User));
 			}
-			List<Offer> offer = _offerDAL.ViewAcceptedOffers(passenger);
-			return View(offer);
+			passenger.Login(_userDAL, _offerDAL);
+			return View(passenger.Offers_Passengers);
         }
         public IActionResult AcceptedOffer()
         {

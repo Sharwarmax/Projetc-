@@ -23,7 +23,7 @@ else
 				<td>@offer.StartPoint</td>
 				@if (offer.Completed == false)
 				{
-					<td><a asp-action="ViewDetails" asp-route-id_offer="@offer.Id_Offer">Details</a></td>
+					<td><a asp-action="ViewDetails" asp-route-id_offer="@offer.Id">Details</a></td>
 				}
 			</tr>
 		}

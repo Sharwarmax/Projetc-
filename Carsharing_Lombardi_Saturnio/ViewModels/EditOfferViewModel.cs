@@ -16,14 +16,6 @@ namespace Carsharing_Lombardi_Saturnio.ViewModels
         public float Price { get => price; set => price = value; }
 
         public EditOfferViewModel() { }
-        public EditOfferViewModel(Offer offer)
-        {
-            Numkm = offer.Numkm;
-            Price = offer.Price;
-            Destination= offer.Destination;
-            StartPoint= offer.StartPoint;
-            Date = offer.Date;
-            DepartureTime= offer.DepartureTime;
-        }
+       
     }
 }
