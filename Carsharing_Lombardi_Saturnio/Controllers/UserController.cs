@@ -43,6 +43,7 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
                 if (user.CheckUsername(_userDAL))
                 {
                     user.Register(_userDAL);
+                    TempData["registered"] = $"Congratulations, {user.Username}, your account has been created!";
                     return RedirectToAction(nameof(Login));
                 }
             }

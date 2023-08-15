@@ -10,6 +10,7 @@ else
     <h1>Offer Details</h1>
     <table class="table">
         <tr>
+            <th>Id of the offer</th>
             <th>Date</th>
             <th>Starting point</th>
             <th>Destination</th>
@@ -21,6 +22,7 @@ else
 
         </tr>
         <tr>
+            <td>@Model.Id</td>
             <td>@Model.Date.ToString("dd/MM/yyyy")</td>
             <td>@Model.StartPoint</td>
             <td>@Model.Destination</td>
@@ -29,7 +31,7 @@ else
             <td>@Model.Numkm</td>
             <td>@Model.Price</td>
             <td>@ViewData["TotalPrice"]</td>
-            @if(Model.Completed == false)
+            @if(Model.Completed == false && Model.Passengers.Count() == 0)
             {
                 <td><a asp-action="EditOffer" asp-route-id_offer="@Model.Id">Edit</a></td>
                 <td><a asp-action="RemoveOffer" asp-route-id_offer="@Model.Id">Remove</a></td>
@@ -67,7 +69,6 @@ else
                 <td>@passenger.First_name</td>
                 <td>@passenger.Last_name</td>
                 <td>@passenger.Phone_number</td>
-                <td><a asp-action="ContactPassenger" asp-route-id_passenger="@passenger.Id">Contact Passenger</a></td>
             </tr>
         }
     </table>

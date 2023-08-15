@@ -2,6 +2,7 @@
 <h1>View Details</h1>
 <table class="table">
     <tr>
+        <th>Id of the offer</th>
         <th>Date</th>
         <th>Starting point</th>
         <th>Destination</th>
@@ -13,6 +14,7 @@
 
     </tr>
     <tr>
+        <td>@Model.Id</td>
         <td>@Model.Date.ToString("dd/MM/yyyy")</td>
         <td>@Model.StartPoint</td>
         <td>@Model.Destination</td>
@@ -21,6 +23,20 @@
         <td>@Model.Numkm</td>
         <td>@Model.Price</td>
         <td>@ViewData["TotalPrice"]</td>
-        <td><a asp-controller="Passenger" asp-action="ConfirmOffer">Accept Offer</a></td>
     <tr>
-<a asp-controller="User" asp-action="Welcome">Return</a>
+    <tr>
+        <th><h1>Driver details</h1></th>
+    </tr>
+    <tr>
+        <th>Username</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Phone Number</th>
+    </tr>
+    <tr>
+        <td>@Model.Driver.Username</td>
+        <td>@Model.Driver.First_name</td>
+        <td>@Model.Driver.Last_name</td>
+        <td>@Model.Driver.Phone_number</td>
+    </tr>
+        <a asp-controller="User" asp-action="Welcome">Return</a>

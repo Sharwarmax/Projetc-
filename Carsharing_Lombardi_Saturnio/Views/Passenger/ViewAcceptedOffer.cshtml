@@ -15,18 +15,20 @@ else
 		<tr>
 			<th>Destination</th>
 			<th>Starting point</th>
+			<th>Date</th>
+
 		</tr>
 		@foreach (var offer in Model)
 		{
 			<tr>
 				<td>@offer.Destination</td>
 				<td>@offer.StartPoint</td>
-				@if (offer.Completed == false)
-				{
-					<td><a asp-action="ViewDetails" asp-route-id_offer="@offer.Id">Details</a></td>
-				}
+				<td>@offer.Date.ToString("dd/MM/yyyy")</td>
+				<td><a asp-action="ViewAcceptedOfferDetails" asp-route-id_offer="@offer.Id">Details</a></td>
 			</tr>
 		}
+		<tr>
 		<td><a asp-controller="User" asp-action="Welcome">Return</a></td>
+		</tr>
 	</table>
 }

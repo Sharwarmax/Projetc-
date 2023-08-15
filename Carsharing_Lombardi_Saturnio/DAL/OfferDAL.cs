@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using Carsharing_Lombardi_Saturnio.DAL.IDAL;
+using System.Reflection;
 
 namespace Carsharing_Lombardi_Saturnio.DAL
 {
@@ -105,8 +106,17 @@ namespace Carsharing_Lombardi_Saturnio.DAL
             List<Offer> offers_passenger = new List<Offer>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT Id_Offer,StartPoint, Destination FROM Saturnio_Lombardi.[dbo].[Offer] WHERE Id_User != @Id_User " +
-                    "AND Date >= CAST(GETDATE() AS Date)", connection);
+                SqlCommand cmd = new SqlCommand("SELECT DISTINCT o.Id_Offer, o.StartPoint, o.Destination " +
+                "FROM Saturnio_Lombardi.[dbo].[Offer] o " +
+                "INNER JOIN Saturnio_Lombardi.[dbo].Users_Offers ou ON o.Id_Offer = ou.Id_Offer "+
+                "WHERE o.Date >= CAST(GETDATE() AS Date) "+
+                "AND o.Completed = 0" +
+                "AND ou.Type = 'Driver' "+
+                "AND ou.Id_User != @Id_User "+
+                "AND o.Id_Offer NOT IN( "+
+                    "SELECT auo.Id_Offer " +
+                    "FROM Saturnio_Lombardi.[dbo].Users_Offers auo " +
+                    "WHERE auo.Id_User = @Id_User)", connection);
                 cmd.Parameters.AddWithValue("Id_User", passenger.Id);
                 connection.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader())
@@ -123,69 +133,22 @@ namespace Carsharing_Lombardi_Saturnio.DAL
             }
             return offers_passenger;
         }
-        //Récupérer plusieurs offres
-		public List<Offer> GetOffers()
-		{
-			List<Offer> offers = new List<Offer>();
-			using (SqlConnection connection = new SqlConnection(connectionString))
-			{
-				SqlCommand cmd = new SqlCommand("SELECT o.Date, o.Id_Offer, o.NbPassengersMax, o.StartPoint, o.Destination, o.Price, o.Completed, o.NumKm" +
-					"ou.Id_User, uf.First_name, uf.Last_name, uf.Phone_number, uf.Username, ou.Type " +
-					"FROM Saturnio_Lombardi.[dbo].[Offer] o " +
-					"INNER JOIN Saturnio_Lombardi.[dbo].[Users_Offers] ou " +
-					"ON o.Id_Offer = ou.Id_Offer " +
-					"INNER JOIN Saturnio_Lombardi.[dbo].[User] uf " +
-					"ON ou.Id_User = uf.Id_User", connection);
-				connection.Open();
-				using (SqlDataReader reader = cmd.ExecuteReader())
-				{
-					while (reader.Read())
-					{
-                        Offer offer = new Offer();
-						offer.Date = reader.GetDateTime("Date");
-						offer.Id = reader.GetInt32("Id_Offer");
-						offer.NbPassengerMax = reader.GetInt32("NbPassengersMax");
-						offer.StartPoint = reader.GetString("StartPoint");
-						offer.Destination = reader.GetString("Destination");
-						offer.Price = Convert.ToSingle(reader.GetDouble("Price"));
-						offer.Completed = reader.GetBoolean("Completed");
-						offer.Numkm = Convert.ToSingle(reader.GetDouble("NumKm"));
-						if (reader.GetString("Type") == "Driver")
-						{
-							offer.Driver.Id = reader.GetInt32("Id_User");
-							offer.Driver.First_name = reader.GetString("First_name");
-							offer.Driver.Last_name = reader.GetString("Last_name");
-							offer.Driver.Phone_number = reader.GetInt32("Phone_number");
-							offer.Driver.Username = reader.GetString("Username");
-						}
-
-						if (reader.GetString("Type") == "Passenger")
-						{
-							User passenger = new User();
-							passenger.Id = reader.GetInt32("Id_User");
-							passenger.First_name = reader.GetString("First_name");
-							passenger.Last_name = reader.GetString("Last_name");
-							passenger.Phone_number = reader.GetInt32("Phone_number");
-							passenger.Username = reader.GetString("Username");
-							offer.Passengers.Add(passenger);
-						}
-                        offers.Add(offer);
-					}
-				}
-			}
-			return offers;
-		}
+        
         //Inserer une offre dans le passenger
-        public void AddPassenger(Offer offer, User passenger)
+        public bool AddPassenger(Offer offer, User passenger)
         {
+            bool result = false;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-                SqlCommand cmd = new SqlCommand("INSERT INTO Saturnio_Lombardi.[dbo].[Users Offers]" +
-                                                "(Id_Offer,Id_User,Type) VALUES (@Id_offer,@Id_User,@Type))", connection);
+                SqlCommand cmd = new SqlCommand("INSERT INTO Saturnio_Lombardi.[dbo].[Users_Offers]" +
+                                                "(Id_Offer,Id_User,Type) VALUES (@Id_offer,@Id_User,@Type)", connection);
                 cmd.Parameters.AddWithValue("@Id_offer", offer.Id);
 				cmd.Parameters.AddWithValue("@Id_User", passenger.Id);
 				cmd.Parameters.AddWithValue("@Type", "Passenger");
                 connection.Open();
+                int res = cmd.ExecuteNonQuery();
+                result = res > 0;
+                return result;
             }
 
         }
@@ -259,7 +222,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
             using(SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand("UPDATE Saturnio_Lombardi.dbo.[Offer] SET NumKm = @NumKm, Price = @Price, " +
-                    "Destination = @Destination, StartPoint = @StartPoint, Date = @Date, Departure_Time = @Departure_Time " +
+                    "Destination = @Destination, Completed = @Completed, StartPoint = @StartPoint, Date = @Date, Departure_Time = @Departure_Time " +
                     "WHERE Id_Offer = @Id_Offer", connection);
                 cmd.Parameters.AddWithValue("Id_Offer", offer.Id);
                 cmd.Parameters.AddWithValue("NumKm", offer.Numkm);
@@ -268,6 +231,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                 cmd.Parameters.AddWithValue("StartPoint", offer.StartPoint);
                 cmd.Parameters.AddWithValue("Date", offer.Date);
                 cmd.Parameters.AddWithValue("Departure_Time", offer.DepartureTime.TimeOfDay);
+                cmd.Parameters.AddWithValue("Completed", offer.Completed);
                 connection.Open();
                 int res = cmd.ExecuteNonQuery();
                 result = res > 0;

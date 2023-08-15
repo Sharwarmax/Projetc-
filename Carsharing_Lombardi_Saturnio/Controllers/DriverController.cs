@@ -29,6 +29,7 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
                 TempData["NotConnected"] = "Please log into your account.";
                 return RedirectToAction(nameof(UserController.Login), nameof(User));
             }
+            driver.Offers_Driver = Offer.ViewMyOffers(_offerDAL, driver);
             return View(driver.Offers_Driver);
         }
 
@@ -61,7 +62,7 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
                 return RedirectToAction(nameof(UserController.Login), nameof(User));
             }
             Offer offer = Offer.GetOffer(id_offer, _offerDAL);
-            if (offer.Driver.Id == driver.Id)
+            if (offer.Driver.Id == driver.Id && offer.Passengers.Count() == 0)
             {
                  if(offer.RemoveOffer(_offerDAL) == true)
                 {
@@ -82,7 +83,7 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
                 return RedirectToAction(nameof(UserController.Login), nameof(User));
             }
             Offer offer = Offer.GetOffer(id_offer, _offerDAL);
-            if (offer.Driver.Id == driver.Id && offer.Completed == false)
+            if (offer.Driver.Id == driver.Id && offer.Completed == false && offer.Passengers.Count() == 0)
             {
                 EditOfferViewModel editoffer = new();
                 TempData["CurrentID_Offer"] = offer.Id;
@@ -243,7 +244,7 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
                 offer.StartPoint = request.StartPoint;
                 offer.Date = request.Date;
                 offer.DepartureTime = request.DepartureTime;
-                offer.Passengers.Add(request.User);
+                offer.AddPassenger(request.User);
                 offer.Price = offer_form.Price;
                 offer.NbPassengerMax = offer_form.NbPassengerMax;
                 offer.Numkm = offer_form.Numkm;

@@ -5,15 +5,20 @@
     ViewData["Title"] = "Login Page";
 }
 
-@if (TempData["username"] != null)
+@if (TempData["registered"] != null)
 {
-    <span class="alert alert-success">Congratulations, @TempData["username"], your account has been created!</span>
+    <span class="alert alert-success">@TempData["registered"]</span>
 }
 
 @if (TempData["NotConnected"] != null)
 {
     <span class="alert alert-danger">@TempData["NotConnected"]</span>
     <br><br><br>
+}
+@if (TempData["message"] != null)
+{
+    <span class="alert alert-danger">@TempData["message"]</span>
+    <br> <br><br>
 }
 
 

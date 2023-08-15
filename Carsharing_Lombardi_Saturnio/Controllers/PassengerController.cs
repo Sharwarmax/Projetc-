@@ -42,10 +42,26 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
 				return RedirectToAction(nameof(UserController.Login), nameof(User));
 			}
 			Offer offer = Offer.GetOffer(id_offer, _offerDAL);
+			ViewData["TotalPrice"]=offer.TotalPrice();
 			HttpContext.Session.Set("currentOffer", offer);
 			return View(offer);
 		}
-		public IActionResult ConfirmOffer()
+
+        public IActionResult ViewAcceptedOfferDetails(int id_offer)
+        {
+            User passenger = HttpContext.Session.Get<User>("CurrentUser");
+            if (passenger == null)
+            {
+                TempData["NotConnected"] = "Please log into your account.";
+                return RedirectToAction(nameof(UserController.Login), nameof(User));
+            }
+            Offer offer = Offer.GetOffer(id_offer, _offerDAL);
+            ViewData["TotalPrice"] = offer.TotalPrice();
+            HttpContext.Session.Set("currentOffer", offer);
+            return View(offer);
+        }
+
+        public IActionResult ConfirmOffer()
 		{
 			User passenger = HttpContext.Session.Get<User>("CurrentUser");
 			Offer offer = HttpContext.Session.Get<Offer>("currentOffer");
@@ -54,8 +70,16 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
 				TempData["NotConnected"] = "Please log into your account.";
 				return RedirectToAction(nameof(UserController.Login), nameof(User));
 			}
-			offer.AddPassenger(passenger, _offerDAL);
-			TempData["SuccessMessage"] = "You have successfully accepted the offer";
+			if(offer.Passengers.Count() +1 == offer.NbPassengerMax)
+			{
+                offer.Completed = true;
+				offer.UpdateOffer(_offerDAL);
+            }
+
+            if (offer.AddPassenger(passenger, _offerDAL))
+                TempData["Message"] = "You have successfully accepted the offer";
+            else
+			TempData["Message"] = "You have successfully accepted the offer";
             return RedirectToAction("ViewOffers"); 
         }
 		public IActionResult ViewAcceptedOffer()
@@ -66,19 +90,10 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
 				TempData["NotConnected"] = "Please log into your account.";
 				return RedirectToAction(nameof(UserController.Login), nameof(User));
 			}
-			passenger.Login(_userDAL, _offerDAL);
+			passenger.Offers_Passengers = Offer.ViewAcceptedOffers(_offerDAL, passenger);
 			return View(passenger.Offers_Passengers);
         }
-        public IActionResult AcceptedOffer()
-        {
-			User passenger = HttpContext.Session.Get<User>("CurrentUser");
-			if (passenger == null)
-			{
-				TempData["NotConnected"] = "Please log into your account.";
-				return RedirectToAction(nameof(UserController.Login), nameof(User));
-			}
-			return View();
-        }
+    
 		public IActionResult RequestOffer()
 		{
 			User passenger = HttpContext.Session.Get<User>("CurrentUser");

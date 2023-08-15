@@ -24,10 +24,7 @@ namespace Carsharing_Lombardi_Saturnio.Models
 
         public Offer() { }
 
-        public float TotalPrice() => price * numkm;
-
-        public void GetOffers() { }
-				
+        public float TotalPrice() => price * numkm;				
         public static Offer GetOffer(int id, IOfferDAL _offerDAL) => _offerDAL.GetOffer(id);
         public bool RemoveOffer(IOfferDAL _offerDAL) => _offerDAL.RemoveOffer(this);
         public bool UpdateOffer(IOfferDAL _offerDAL) => _offerDAL.UpdateOffer(this);
@@ -36,7 +33,9 @@ namespace Carsharing_Lombardi_Saturnio.Models
 
         public static List<Offer> ViewAcceptedOffers(IOfferDAL _offerDAL,User passenger) => _offerDAL.ViewAcceptedOffers(passenger);
 
-        public void AddPassenger(User passenger, IOfferDAL _offerDAL) => _offerDAL.AddPassenger(this,passenger);
+        public bool AddPassenger(User passenger, IOfferDAL _offerDAL) => _offerDAL.AddPassenger(this,passenger);
+        public void AddPassenger(User passenger) => this.Passengers.Add(passenger);
+
         public static List<Offer>  ViewMyOffers(IOfferDAL _offerDAL, User user) => _offerDAL.ViewMyOffers(user);
 
 		public static List<Offer> ViewOffers(IOfferDAL _offerDAL, User user) => _offerDAL.ViewOffers(user);
