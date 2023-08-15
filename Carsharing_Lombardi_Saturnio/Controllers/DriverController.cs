@@ -249,6 +249,9 @@ namespace Carsharing_Lombardi_Saturnio.Controllers
                 offer.NbPassengerMax = offer_form.NbPassengerMax;
                 offer.Numkm = offer_form.Numkm;
                 offer.Driver.Id = driver.Id;
+                if(offer.NbPassengerMax == 1)
+                    offer.Completed = true;
+                else
                 offer.Completed = false;
                 if (offer.InsertOfferAndUser(_offerDAL) == true && request.RemoveRequest(_requestDAL) == true)
                 {

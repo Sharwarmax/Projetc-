@@ -282,7 +282,7 @@ namespace Carsharing_Lombardi_Saturnio.DAL
                 cmd.Parameters.AddWithValue("NumKm", offer.Numkm);
                 cmd.Parameters.AddWithValue("Price", offer.Price);
                 cmd.Parameters.AddWithValue("NbPassengersMax", offer.NbPassengerMax);
-                cmd.Parameters.AddWithValue("Completed", 0);
+                cmd.Parameters.AddWithValue("Completed", offer.Completed);
                 cmd.Parameters.AddWithValue("Id_Driver", offer.Driver.Id);
                 cmd.Parameters.AddWithValue("Id_Passenger", offer.Passengers[0].Id);
                 cmd.Parameters.AddWithValue("Destination", offer.Destination);
